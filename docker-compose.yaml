@@ -1,0 +1,31 @@
+version: "3.1"
+services: 
+#set appropriate time zone in alpine linux
+  nodered:
+    image: nodered/node-red
+    restart: always
+    user: root
+    networks:
+      static-network:        
+        ipv4_address: 10.16.0.10
+    ports: 
+      - "1880:1880"
+    volumes: 
+      - "./node_red/data:/data"
+  mosquitto:
+    image: eclipse-mosquitto
+    restart: always
+    networks:
+      static-network:
+        ipv4_address: 10.16.0.20
+    ports: 
+      - "1883:1883"
+    volumes:
+      - "./mosquitto/config:/mosquitto/config"
+      - "./mosquitto/data:/mosquitto/data"
+      - "./mosquitto/log:/mosquitto/log"
+networks:
+  static-network:
+    ipam:
+      config:
+        - subnet: 10.16.0.0/16
