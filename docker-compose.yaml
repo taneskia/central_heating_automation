@@ -1,10 +1,12 @@
 version: "3.1"
 services: 
-#set appropriate time zone in alpine linux
   nodered:
     image: nodered/node-red
     restart: always
-    user: root
+    user: root:root
+    entrypoint: /data/entrypoint.sh
+    environment:
+      TZ: Europe/Skopje
     networks:
       static-network:        
         ipv4_address: 10.16.0.10
